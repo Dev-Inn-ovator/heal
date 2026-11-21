@@ -840,15 +840,38 @@ function renderMuscles() {
           )
           .join("")
       : `<p class="muted small">No mapped moves.</p>`;
+  const muscleExerciseCards = (label, main, helper) => {
+    if (main.length) {
+      return `<div class="card">
+      <h3>Main plan exercises for ${label}</h3>
+      <p class="small muted">These treat ${label} as the main target.</p>
+      ${exMini(main)}
+    </div>
+    ${
+      helper.length
+        ? `<div class="card">
+      <h3>Also involve ${label}</h3>
+      <p class="small muted">Other lifts where ${label} helps, but is not the main focus.</p>
+      ${exMini(helper, 10)}
+    </div>`
+        : ""
+    }`;
+    }
+    return `<div class="card">
+      <h3>Plan exercises for ${label}</h3>
+      <p class="small muted">No lift lists ${label} as the #1 target. These plan moves still train it as a helper.</p>
+      ${exMini(helper)}
+    </div>`;
+  };
   const partCount = (MUSCLE_PARTS[selectedMuscle] || []).length;
 
   const isLegs = region.id === "legs";
 
   if (isLegs) {
-    const legRelated = Object.values(EX).filter((e) =>
-      region.muscles.some(
-        (k) => (e.primary || []).includes(k) || (e.secondary || []).includes(k)
-      )
+    const legKeys = region.muscles;
+    const legPrimary = Object.values(EX).filter((e) => legKeys.some((k) => (e.primary || []).includes(k)));
+    const legSecondary = Object.values(EX).filter(
+      (e) => !legKeys.some((k) => (e.primary || []).includes(k)) && legKeys.some((k) => (e.secondary || []).includes(k))
     );
     root.innerHTML = `
     <div class="card">
@@ -880,20 +903,19 @@ function renderMuscles() {
         .join("")}
     </div>
     <div class="card">
-      <h3>All plan leg exercises</h3>
-      ${
-        legRelated.length
-          ? legRelated
-              .slice(0, 16)
-              .map(
-                (e) => `<div class="ex-mini"><img src="${e.img0}" alt="" loading="lazy" /><div><b>${e.name}</b>
-            <div class="small muted">${(e.primary || []).map(muscleLabel).join(", ")}</div>
-            <a class="small" href="${e.video}" target="_blank" rel="noopener">Video ↗</a></div></div>`
-              )
-              .join("")
-          : `<p class="muted small">No mapped moves.</p>`
-      }
-    </div>`;
+      <h3>Main plan leg exercises</h3>
+      <p class="small muted">Lifts that mainly target quads, hamstrings, glutes, calves or outer hips.</p>
+      ${exMini(legPrimary, 16)}
+    </div>
+    ${
+      legSecondary.length
+        ? `<div class="card">
+      <h3>Also involve the legs</h3>
+      <p class="small muted">Other moves that use leg muscles as helpers only.</p>
+      ${exMini(legSecondary, 10)}
+    </div>`
+        : ""
+    }`;
 
     document.getElementById("back-regions").onclick = () => {
       selectedRegion = null;
@@ -936,20 +958,7 @@ function renderMuscles() {
       <p class="small muted">${info.figures ? "Numbers and colours match" : "Names and colours match"} the figure above. Use this list in the gym.</p>
       ${partsHtml(selectedMuscle)}
     </div>
-    <div class="card">
-      <h3>Main plan exercises for ${info.label}</h3>
-      <p class="small muted">These treat ${muscleLabel(selectedMuscle)} as the main target.</p>
-      ${exMini(primaryEx)}
-    </div>
-    ${
-      secondaryEx.length
-        ? `<div class="card">
-      <h3>Also involve ${muscleLabel(selectedMuscle)}</h3>
-      <p class="small muted">Other lifts where ${muscleLabel(selectedMuscle)} helps, but is not the main focus (for example chest press also uses the front delts).</p>
-      ${exMini(secondaryEx, 10)}
-    </div>`
-        : ""
-    }`;
+    ${muscleExerciseCards(info.label, primaryEx, secondaryEx)}`;
 
   document.getElementById("back-regions").onclick = () => {
     selectedRegion = null;

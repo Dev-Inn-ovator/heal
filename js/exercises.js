@@ -106,7 +106,7 @@ window.EX = {
   }),
   scapPull: E({
     id: "Scapular_Pull-Up", name: "Dead hang / scap pull",
-    primary: ["lats"], secondary: ["middle back", "forearms"],
+    primary: ["lats"], secondary: ["middle back", "forearms", "traps"],
     cues: [
       "Hang from pull-up bar, arms straight, feet off floor if possible.",
       "Pack shoulders down and slightly back without bending elbows (scap pull).",
@@ -117,7 +117,7 @@ window.EX = {
   }),
   walkLunge: E({
     id: "Bodyweight_Walking_Lunge", name: "Walking lunge (bodyweight)",
-    primary: ["quadriceps"], secondary: ["glutes", "hamstrings"],
+    primary: ["quadriceps"], secondary: ["glutes", "hamstrings", "abductors", "adductors"],
     cues: [
       "Step forward, lower until both knees ~90° if comfortable.",
       "Front knee tracks toes; back knee soft toward floor.",
@@ -130,7 +130,7 @@ window.EX = {
   // —— Main lifts ——
   legPress: E({
     id: "Leg_Press", name: "Leg press",
-    primary: ["quadriceps"], secondary: ["glutes", "hamstrings", "calves"],
+    primary: ["quadriceps"], secondary: ["glutes", "hamstrings", "calves", "adductors"],
     cues: [
       "Feet mid-platform, shoulder-width. Full foot contact.",
       "Unlock sled, lower until knees ~90° (or as deep as pain-free).",
@@ -154,7 +154,7 @@ window.EX = {
   }),
   latPulldown: E({
     id: "Wide-Grip_Lat_Pulldown", name: "Wide-grip lat pulldown",
-    primary: ["lats"], secondary: ["biceps", "middle back", "shoulders"],
+    primary: ["lats"], secondary: ["biceps", "middle back", "shoulders", "traps"],
     cues: [
       "Thighs under pads. Overhand grip wider than shoulders.",
       "Lean back slightly (~15°). Pull bar to upper chest — lead with elbows.",
@@ -166,7 +166,7 @@ window.EX = {
   }),
   lateralRaise: E({
     id: "Side_Lateral_Raise", name: "Dumbbell lateral raise",
-    primary: ["shoulders"], secondary: [],
+    primary: ["shoulders"], secondary: ["traps"],
     cues: [
       "Light DBs, slight elbow bend, soft knees.",
       "Raise arms out to sides until hands ~shoulder height (like pouring a jug).",
@@ -212,7 +212,7 @@ window.EX = {
   }),
   ohp: E({
     id: "Seated_Dumbbell_Press", name: "Seated dumbbell shoulder press",
-    primary: ["shoulders"], secondary: ["triceps"],
+    primary: ["shoulders"], secondary: ["triceps", "traps"],
     cues: [
       "Back supported. DBs at ear level, palms forward.",
       "Press up until arms long but not violently locked.",
@@ -267,7 +267,7 @@ window.EX = {
   }),
   cableRow: E({
     id: "Seated_Cable_Rows", name: "Seated cable row",
-    primary: ["middle back"], secondary: ["lats", "biceps"],
+    primary: ["middle back"], secondary: ["lats", "biceps", "shoulders"],
     cues: [
       "Sit tall, slight knee bend, chest up.",
       "Pull handle to stomach; elbows drive back; squeeze shoulder blades 1 sec.",
@@ -344,7 +344,7 @@ window.EX = {
   }),
   smithSquat: E({
     id: "Smith_Machine_Squat", name: "Smith / goblet squat",
-    primary: ["quadriceps"], secondary: ["glutes", "hamstrings"],
+    primary: ["quadriceps"], secondary: ["glutes", "hamstrings", "lower back", "adductors"],
     cues: [
       "Bar on upper traps (not neck). Feet slightly forward of bar line on Smith.",
       "Sit down between heels, chest up, depth you control.",
@@ -378,7 +378,7 @@ window.EX = {
   }),
   lunges: E({
     id: "Dumbbell_Lunges", name: "Reverse / walking lunge",
-    primary: ["quadriceps"], secondary: ["glutes", "hamstrings"],
+    primary: ["quadriceps"], secondary: ["glutes", "hamstrings", "abductors", "adductors"],
     cues: [
       "Step back (easier on knees) or forward. Both knees bend.",
       "Front shin mostly vertical; torso upright.",
@@ -482,7 +482,7 @@ window.EX = {
   }),
   bentRow: E({
     id: "Bent_Over_Barbell_Row", name: "Bent-over row (DB/Smith)",
-    primary: ["middle back"], secondary: ["lats", "biceps"],
+    primary: ["middle back"], secondary: ["lats", "biceps", "shoulders", "lower back"],
     cues: [
       "Hinge ~45°, flat back. Pull DBs/bar to hips/waist.",
       "Squeeze blades. Lower with control."
