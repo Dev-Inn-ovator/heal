@@ -442,10 +442,9 @@ function renderGymDetail() {
       </summary>
       <div class="fold-body">
         ${body}
-        <button type="button" class="fold-close" data-fold-close="${key}" aria-label="Collapse ${title}">
-          <span class="fold-close-arrow" aria-hidden="true"></span>
-          <span>Collapse</span>
-        </button>
+        <div class="fold-foot">
+          <button type="button" class="fold-close" data-fold-close="${key}" aria-label="Collapse ${title}"></button>
+        </div>
       </div>
     </details>`;
 
@@ -458,7 +457,6 @@ function renderGymDetail() {
       </div>
       <h2 style="margin-top:10px">${s.title}</h2>
       <p class="muted small">${s.focus || ""}</p>
-      <p class="small muted">Tip: finish a block, then tap the ↑ at the bottom to collapse it.</p>
     </div>
     ${fold(
       "warmup",
