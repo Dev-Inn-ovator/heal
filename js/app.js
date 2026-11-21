@@ -825,9 +825,21 @@ function renderMuscles() {
   }
 
   const info = MUSCLE_INFO[selectedMuscle] || MUSCLE_INFO[region.muscles[0]];
-  const related = Object.values(EX).filter(
-    (e) => (e.primary || []).includes(selectedMuscle) || (e.secondary || []).includes(selectedMuscle)
+  const primaryEx = Object.values(EX).filter((e) => (e.primary || []).includes(selectedMuscle));
+  const secondaryEx = Object.values(EX).filter(
+    (e) => !(e.primary || []).includes(selectedMuscle) && (e.secondary || []).includes(selectedMuscle)
   );
+  const exMini = (list, limit = 14) =>
+    list.length
+      ? list
+          .slice(0, limit)
+          .map(
+            (e) => `<div class="ex-mini"><img src="${e.img0}" alt="" loading="lazy" /><div><b>${e.name}</b>
+            <div class="small muted">${(e.primary || []).map(muscleLabel).join(", ")}</div>
+            <a class="small" href="${e.video}" target="_blank" rel="noopener">Video ↗</a></div></div>`
+          )
+          .join("")
+      : `<p class="muted small">No mapped moves.</p>`;
   const partCount = (MUSCLE_PARTS[selectedMuscle] || []).length;
 
   const isLegs = region.id === "legs";
@@ -925,20 +937,19 @@ function renderMuscles() {
       ${partsHtml(selectedMuscle)}
     </div>
     <div class="card">
-      <h3>All plan exercises for ${info.label}</h3>
-      ${
-        related.length
-          ? related
-              .slice(0, 14)
-              .map(
-                (e) => `<div class="ex-mini"><img src="${e.img0}" alt="" loading="lazy" /><div><b>${e.name}</b>
-            <div class="small muted">${(e.primary || []).map(muscleLabel).join(", ")}</div>
-            <a class="small" href="${e.video}" target="_blank" rel="noopener">Video ↗</a></div></div>`
-              )
-              .join("")
-          : `<p class="muted small">No mapped moves.</p>`
-      }
-    </div>`;
+      <h3>Main plan exercises for ${info.label}</h3>
+      <p class="small muted">These treat ${muscleLabel(selectedMuscle)} as the main target.</p>
+      ${exMini(primaryEx)}
+    </div>
+    ${
+      secondaryEx.length
+        ? `<div class="card">
+      <h3>Also involve ${muscleLabel(selectedMuscle)}</h3>
+      <p class="small muted">Other lifts where ${muscleLabel(selectedMuscle)} helps, but is not the main focus (for example chest press also uses the front delts).</p>
+      ${exMini(secondaryEx, 10)}
+    </div>`
+        : ""
+    }`;
 
   document.getElementById("back-regions").onclick = () => {
     selectedRegion = null;
