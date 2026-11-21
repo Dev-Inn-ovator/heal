@@ -9,6 +9,7 @@ function E(o) {
     primary: o.primary || [],
     secondary: o.secondary || [],
     cues: o.cues || [],
+    breathing: o.breathing || [],
     mistakes: o.mistakes || [],
     alts: o.alts || "",
     video: o.video || yt(o.name),
@@ -17,6 +18,302 @@ function E(o) {
     img1: IMG + o.id + "/1.jpg"
   };
 }
+
+/*
+ * Breathing notes follow standard strength & conditioning coaching
+ * (NSCA technique guidance / ACSM-style programming advice):
+ * - For normal working sets: inhale on the easier/eccentric phase,
+ *   exhale through the harder/concentric “effort” / sticking point.
+ * - Do not make long breath-holds your default (raises blood pressure).
+ * - Brief bracing is for heavier structural lifts only; this plan’s
+ *   warm-up and build loads should use rhythmic breathing.
+ * - Stretching: keep breathing continuous and slow; do not hold the breath.
+ */
+const BREATH = {
+  treadmill: [
+    "Easy nasal or relaxed mouth breathing — never hold your breath.",
+    "Match breath to a steady walk rhythm (about 2–3 steps per breath).",
+    "If you feel winded, slow the speed; warm-up should feel conversational."
+  ],
+  armCircles: [
+    "Breathe continuously — do not hold your breath while circling.",
+    "Calm inhale as arms travel one half-circle; soft exhale on the other half.",
+    "Keep the breath quiet; shrugging usually means you are bracing too hard."
+  ],
+  ankleCircles: [
+    "Steady easy breathing the whole time.",
+    "No breath-holding; this is joint mobility, not a strength set."
+  ],
+  kneeCircles: [
+    "Breathe normally and slowly.",
+    "Exhale gently if a position feels tight; never force range while holding your breath."
+  ],
+  hipCircles: [
+    "Inhale as the hips open forward/side; soft exhale as they travel back.",
+    "Keep ribs quiet and breath continuous — no Valsalva / breath-hold."
+  ],
+  torsoRotation: [
+    "Inhale in the centre (tall posture).",
+    "Exhale as you rotate to each side; return to centre on a soft inhale.",
+    "Do not hold your breath at end-range rotation."
+  ],
+  bwSquat: [
+    "Inhale as you sit down (hips back, knees bend).",
+    "Exhale as you stand up — the effort phase.",
+    "For these light warm-up reps, do not hold your breath."
+  ],
+  wallPush: [
+    "Inhale as you bend the elbows and lower toward the wall/floor.",
+    "Exhale as you push away (effort phase).",
+    "Keep a steady rhythm; no breath-holding on warm-up push-ups."
+  ],
+  scapPull: [
+    "Inhale in a relaxed dead hang.",
+    "Exhale as you pack the shoulders down/back (the small scap pull).",
+    "If only hanging: breathe calmly; never hold your breath while hanging."
+  ],
+  walkLunge: [
+    "Inhale as you step and lower into the lunge.",
+    "Exhale as you push through the front foot to stand/step through.",
+    "If balance is hard, pause tall between reps and take one calm breath."
+  ],
+  legPress: [
+    "Inhale as you bend the knees and lower the sled (eccentric).",
+    "Exhale as you press the sled up — through the hardest part near the bottom-to-mid range.",
+    "Do not lock out with a long breath-hold; keep reps rhythmic on this plan’s loads."
+  ],
+  machineChest: [
+    "Inhale as you lower the handles to mid-chest (eccentric).",
+    "Exhale as you press out (concentric / sticking point).",
+    "Shoulder blades stay packed; breath stays timed to each rep — no holding."
+  ],
+  latPulldown: [
+    "Inhale as the bar returns up and arms lengthen (eccentric).",
+    "Exhale as you pull the bar to the upper chest (effort).",
+    "Think “exhale on the pull,” not on the way up."
+  ],
+  lateralRaise: [
+    "Inhale at the bottom with arms by your sides.",
+    "Exhale as you raise the dumbbells to ~shoulder height.",
+    "Inhale again as you lower slowly; never shrug and hold your breath."
+  ],
+  plank: [
+    "Breathe steadily the whole hold — short breath-holds spike blood pressure and make the plank collapse.",
+    "Prefer a slow belly/diaphragm breath: soft inhale, soft exhale, ribs down.",
+    "If you catch yourself holding your breath, reset and keep air moving."
+  ],
+  inclinePress: [
+    "Inhale as the dumbbells/bar lower toward the upper chest.",
+    "Exhale as you press up through the sticking point.",
+    "Reset a calm breath at the top between reps if the set is long."
+  ],
+  cableFly: [
+    "Inhale as the hands open wide (stretch / eccentric).",
+    "Exhale as you hug the hands together (effort).",
+    "Keep elbows softly fixed; breath follows the arc, not a breath-hold."
+  ],
+  ohp: [
+    "Inhale with the dumbbells at ear level (start).",
+    "Exhale as you press overhead through the hard mid-range.",
+    "Inhale as you lower back to ear level. Avoid holding your breath at lockout on these working sets."
+  ],
+  pushdown: [
+    "Inhale as the rope/bar returns up and elbows bend (eccentric).",
+    "Exhale as you push down to full elbow extension (effort).",
+    "Elbows stay pinned; breath matches each rep."
+  ],
+  ohExt: [
+    "Inhale as you bend the elbows and lower the weight behind the head (stretch).",
+    "Exhale as you extend the elbows and lift the weight back up (effort).",
+    "Keep upper arms quiet by the ears; no breath-holding in the stretch."
+  ],
+  airBike: [
+    "Exhale as the elbow and opposite knee come together (curl / effort).",
+    "Inhale as you switch sides and the other leg extends.",
+    "Never pull on the neck while holding your breath."
+  ],
+  straightArm: [
+    "Inhale as the bar rises and arms travel up/forward (eccentric on the lats).",
+    "Exhale as you push the bar down toward the thighs in an arc (effort).",
+    "Arms stay nearly straight; breath follows the arc."
+  ],
+  cableRow: [
+    "Inhale as the arms reach forward and the shoulder blades open (eccentric).",
+    "Exhale as you pull the handle to the stomach and squeeze the blades (effort).",
+    "At the pause, finish the exhale; then inhale on the reach again."
+  ],
+  dbCurl: [
+    "Inhale as you lower the dumbbells (eccentric).",
+    "Exhale as you curl up (effort).",
+    "Do not swing the torso or hold your breath at the top."
+  ],
+  hammer: [
+    "Inhale as the weights lower.",
+    "Exhale as you curl up with thumbs-up grip.",
+    "Keep the breath even; grip work often makes people accidentally hold air."
+  ],
+  reverseCurl: [
+    "Inhale on the lower.",
+    "Exhale as you curl the bar up (effort).",
+    "Use light loads so you can keep breathing instead of bracing hard."
+  ],
+  wristDown: [
+    "Inhale as the wrists drop / stretch.",
+    "Exhale as you extend the wrists up (effort).",
+    "Tiny muscles — keep breathing light and continuous."
+  ],
+  wristUp: [
+    "Inhale as you lower the weight (wrist stretch).",
+    "Exhale as you curl the weight up with the wrists.",
+    "No breath-holding; keep sets controlled."
+  ],
+  hangKnee: [
+    "In the hang: breathe calmly; do not hold your breath.",
+    "If raising knees: exhale as knees lift / pelvis curls; inhale as legs lower.",
+    "If grip fails first, switch to shorter hangs with continuous breathing."
+  ],
+  smithSquat: [
+    "Inhale as you sit down between the heels (descent).",
+    "Exhale as you drive up to stand — through the hardest part out of the bottom.",
+    "On this plan’s loads, prefer rhythmic breathing over a long breath-hold. Brace the trunk, but keep air moving."
+  ],
+  legExt: [
+    "Inhale as you bend the knees and lower the pad (eccentric).",
+    "Exhale as you straighten the knees (effort).",
+    "Squeeze briefly at the top while finishing the exhale — then inhale on the way down."
+  ],
+  rdl: [
+    "Take a breath and brace lightly before the hinge.",
+    "Inhale (or keep air) as you push hips back and lower the weight with a long spine.",
+    "Exhale as you drive hips forward to stand. Avoid a long closed-glottis hold on moderate weights."
+  ],
+  lunges: [
+    "Inhale as you step and lower.",
+    "Exhale as you push back to the start.",
+    "Pause tall between hard reps for one calm breath if needed."
+  ],
+  calfStand: [
+    "Inhale at the bottom stretch.",
+    "Exhale as you rise onto the toes (effort).",
+    "Inhale again as you lower slowly into the stretch."
+  ],
+  calfSeat: [
+    "Inhale as the heels drop (stretch).",
+    "Exhale as you press the balls of the feet up.",
+    "Keep the breath matched to each rep — no holding at the top."
+  ],
+  cableCrunch: [
+    "Inhale tall on the knees (start).",
+    "Exhale as you crunch ribs toward the pelvis (effort).",
+    "Inhale as you return tall. Do not yank the rope while breath-holding."
+  ],
+  flatBench: [
+    "Inhale as you lower the bar/handles to mid-chest.",
+    "Exhale as you press up through the sticking point.",
+    "Keep shoulder blades set; reset breath at lockout if the set is long."
+  ],
+  declinePress: [
+    "Inhale as you lower.",
+    "Exhale as you press up.",
+    "Same rule as other presses: air in on the lower, air out on the push."
+  ],
+  pecDeck: [
+    "Inhale as the pads open (stretch).",
+    "Exhale as you bring the pads together (effort).",
+    "Do not slam the pads while holding your breath."
+  ],
+  arnold: [
+    "Inhale at the bottom (DBs in front of shoulders).",
+    "Exhale as you rotate and press up.",
+    "Inhale as you reverse the path down."
+  ],
+  cableLat: [
+    "Inhale with the arm by your side.",
+    "Exhale as you raise the cable out to the side.",
+    "Inhale as you lower; keep traps down."
+  ],
+  dips: [
+    "Inhale as you bend the elbows and lower.",
+    "Exhale as you press up.",
+    "If the set is hard, take a breath at the top support — not at the bottom."
+  ],
+  bentRow: [
+    "Inhale as the arms lengthen and the weight lowers (eccentric).",
+    "Exhale as you row the weight toward the torso (effort).",
+    "Keep the spine long; do not round and hold your breath at the bottom."
+  ],
+  facePull: [
+    "Inhale as the rope returns forward.",
+    "Exhale as you pull toward the face and rotate the hands back.",
+    "Soft knees, ribs down; breath stays with the pull."
+  ],
+  concCurl: [
+    "Inhale as the dumbbell lowers.",
+    "Exhale as you curl up.",
+    "Brace the working arm on the inner thigh; no torso swing or breath-hold."
+  ],
+  legCurl: [
+    "Inhale as the legs straighten (eccentric).",
+    "Exhale as you curl the heels toward the glutes (effort).",
+    "Control the lower — that is where people forget to inhale."
+  ],
+  hipThrust: [
+    "Inhale at the bottom with hips down.",
+    "Exhale as you drive the hips up to a glute squeeze (effort).",
+    "Inhale as you lower. Keep chin tucked; do not hold breath and over-arch the low back."
+  ],
+  /* Stretches: continuous slow breathing; do not hold breath (NSCA/ACSM practical cue + flexibility studies using slow deep breathing). */
+  chestStretch: [
+    "Breathe continuously — never hold your breath in a stretch.",
+    "Ease into the stretch on a slow exhale; keep a gentle inhale without forcing more range.",
+    "Hold 20–30 s with slow breaths (about 4 s in, 4 s out if it helps you stay relaxed)."
+  ],
+  shoulderStretch: [
+    "Slow continuous breathing.",
+    "On each exhale, let the shoulder soften a little — do not bounce or force.",
+    "If you feel tingling or sharp pain, ease off and keep breathing normally."
+  ],
+  triStretch: [
+    "Inhale to set the arm position.",
+    "Exhale gently as you ease the elbow stretch; keep breathing the whole hold.",
+    "No breath-holding behind the head."
+  ],
+  catStretch: [
+    "Inhale as you soften the belly toward a gentle cow (if using cat–cow).",
+    "Exhale as you round the spine into cat and press the floor away.",
+    "Match one breath to one slow spinal wave — never hold."
+  ],
+  childPose: [
+    "Rest forehead down and breathe into the back/ribs.",
+    "Slow nasal inhales; longer soft exhales to settle.",
+    "This is recovery breathing — no forcing depth with a breath-hold."
+  ],
+  hamStretch: [
+    "Breathe continuously while the hamstring is lengthened.",
+    "Use slow exhales to ease tension; do not yank farther on a held breath.",
+    "Mild stretch only; sharp pain means ease off and keep air moving."
+  ],
+  quadStretch: [
+    "Stand tall and breathe normally while holding the foot.",
+    "Exhale to settle into the stretch; inhale without leaning forward.",
+    "Hold with continuous breath for 20–30 s each side."
+  ],
+  calfStretch: [
+    "Keep heels down and breathe slowly.",
+    "Exhale as you ease the back knee straight / lean; inhale without bouncing.",
+    "Continuous breathing for the full hold."
+  ],
+  hipFlex: [
+    "In the lunge stretch: inhale tall through the crown.",
+    "Exhale as you gently tuck the pelvis and ease the hip flexor stretch.",
+    "Do not dump into the low back while holding your breath."
+  ],
+  frontShoulder: [
+    "Open the chest while breathing continuously.",
+    "Ease deeper on a slow exhale; keep the neck soft.",
+    "No aggressive breath-holds in doorway stretches."
+  ]
+};
 
 window.EX = {
   // —— Warm-up ——
@@ -636,6 +933,10 @@ window.EX = {
     video: yt("front shoulder stretch")
   })
 };
+
+Object.keys(BREATH).forEach((k) => {
+  if (window.EX[k]) window.EX[k].breathing = BREATH[k];
+});
 
 /* Muscle guide data. Atlas figures use text-free art + programmatic labels.
    The approved Legs source is kept intact and displayed through accurate front/posterior crops. */

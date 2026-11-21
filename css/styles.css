@@ -210,6 +210,19 @@ a { color: var(--accent); }
   word-break: break-word;
 }
 
+.breath-box {
+  margin: 10px 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(111, 207, 151, 0.28);
+  background: rgba(111, 207, 151, 0.08);
+}
+.breath-box ol {
+  margin: 6px 0 0;
+  padding-left: 1.15rem;
+}
+.breath-box li { margin: 4px 0; }
+
 .btn {
   border: 0;
   border-radius: 10px;

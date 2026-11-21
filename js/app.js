@@ -366,9 +366,13 @@ function renderExCard(ex, opts = {}) {
         </div>
       </div>
       <details>
-        <summary>How to do it + mistakes + video</summary>
+        <summary>How to do it · breathing · mistakes · video</summary>
         <p class="small"><b>Steps</b></p>
         <ol>${(ex.cues || []).map((c) => `<li>${c}</li>`).join("")}</ol>
+        <div class="breath-box">
+          <p class="small"><b>Breathing</b></p>
+          <ol>${(ex.breathing && ex.breathing.length ? ex.breathing : ["Breathe continuously. Exhale on the hard part of the rep; inhale on the easier return. Do not hold your breath."]).map((c) => `<li>${c}</li>`).join("")}</ol>
+        </div>
         <p class="small"><b>Avoid</b>: ${(ex.mistakes || []).join(" · ") || "—"}</p>
         <p class="small"><a href="${ex.video}" target="_blank" rel="noopener">${ex.videoLabel || "Watch form video"} ↗</a></p>
       </details>
