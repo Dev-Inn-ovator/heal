@@ -436,8 +436,17 @@ function renderGymDetail() {
   const archive = gymView === "archive";
   const fold = (key, title, body, cls = "") => `
     <details class="card phase ${cls} fold" data-fold="${key}" ${sectionOpen[key] ? "open" : ""}>
-      <summary class="fold-sum">${title} <span class="muted small">tap to collapse</span></summary>
-      <div class="fold-body">${body}</div>
+      <summary class="fold-sum">
+        <span class="fold-title">${title}</span>
+        <span class="fold-chevron" aria-hidden="true"></span>
+      </summary>
+      <div class="fold-body">
+        ${body}
+        <button type="button" class="fold-close" data-fold-close="${key}" aria-label="Collapse ${title}">
+          <span class="fold-close-arrow" aria-hidden="true"></span>
+          <span>Collapse</span>
+        </button>
+      </div>
     </details>`;
 
   root.innerHTML = `
@@ -449,7 +458,7 @@ function renderGymDetail() {
       </div>
       <h2 style="margin-top:10px">${s.title}</h2>
       <p class="muted small">${s.focus || ""}</p>
-      <p class="small muted">Tip: collapse Warm-up after you finish it, so Main work stays on screen.</p>
+      <p class="small muted">Tip: finish a block, then tap the ↑ at the bottom to collapse it.</p>
     </div>
     ${fold(
       "warmup",
@@ -473,6 +482,15 @@ function renderGymDetail() {
   root.querySelectorAll("details.fold").forEach((d) => {
     d.addEventListener("toggle", () => {
       sectionOpen[d.dataset.fold] = d.open;
+    });
+  });
+  root.querySelectorAll("[data-fold-close]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const d = btn.closest("details.fold");
+      if (!d) return;
+      d.open = false;
+      sectionOpen[d.dataset.fold] = false;
+      d.scrollIntoView({ behavior: "smooth", block: "nearest" });
     });
   });
   bindExCardEvents(root);

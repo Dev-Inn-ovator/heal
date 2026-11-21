@@ -414,11 +414,73 @@ a { color: var(--accent); }
   color: var(--accent);
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
-  gap: 8px;
+  align-items: center;
+  gap: 10px;
+  user-select: none;
 }
 .fold > summary::-webkit-details-marker { display: none; }
+.fold-title { flex: 1; min-width: 0; }
+.fold-chevron {
+  flex: 0 0 auto;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  border: 1px solid rgba(111, 207, 151, 0.35);
+  background: rgba(111, 207, 151, 0.1);
+  position: relative;
+  transition: transform 0.22s ease, background 0.22s ease, border-color 0.22s ease;
+}
+.fold-chevron::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid var(--accent);
+  border-bottom: 2px solid var(--accent);
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform 0.22s ease;
+}
+.fold[open] > summary .fold-chevron {
+  background: rgba(111, 207, 151, 0.18);
+  border-color: rgba(111, 207, 151, 0.55);
+}
+.fold[open] > summary .fold-chevron::before {
+  transform: translateY(2px) rotate(225deg);
+}
 .fold-body { margin-top: 10px; }
+.fold-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  margin-top: 14px;
+  padding: 11px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(111, 207, 151, 0.3);
+  background: rgba(111, 207, 151, 0.08);
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.18s ease, border-color 0.18s ease;
+}
+.fold-close:hover,
+.fold-close:focus-visible {
+  background: rgba(111, 207, 151, 0.16);
+  border-color: rgba(111, 207, 151, 0.5);
+  outline: none;
+}
+.fold-close-arrow {
+  width: 10px;
+  height: 10px;
+  border-left: 2px solid var(--accent);
+  border-top: 2px solid var(--accent);
+  transform: rotate(45deg);
+  margin-top: 3px;
+}
 
 .region-grid {
   display: grid;
