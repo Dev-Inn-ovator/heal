@@ -1,0 +1,10 @@
+.DS_Store
+*.log
+node_modules/
+.idea/
+.vscode/
+_*.txt
+.qa/
+.qa_core_deep_zoom.png
+__pycache__/
+*.pyc

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0c1210" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <title>HEAL — Gym · Food · Day · Muscles</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css?v=atlas12" />
+</head>
+<body>
+  <div class="app">
+    <header class="hero">
+      <div class="kicker">Dev-Inn-ovator · Cult · Bangalore</div>
+      <h1>HEAL Plan</h1>
+      <p>Morning gym · home meals · study · tracking. Logs stay in this Chrome profile. Hard-refresh (Ctrl+Shift+R) after updates.</p>
+    </header>
+
+    <nav class="tabs" aria-label="Sections">
+      <button class="tab active" data-tab="home" type="button">Home</button>
+      <button class="tab" data-tab="gym" type="button">Gym</button>
+      <button class="tab" data-tab="muscles" type="button">Muscles</button>
+      <button class="tab" data-tab="track" type="button">Measure</button>
+      <button class="tab" data-tab="nutrition" type="button">Food</button>
+      <button class="tab" data-tab="timetable" type="button">Day</button>
+    </nav>
+
+    <section id="home" class="panel active"></section>
+    <section id="gym" class="panel">
+      <div id="gym-nav"></div>
+      <div id="gym-detail"></div>
+    </section>
+    <section id="muscles" class="panel"></section>
+    <section id="track" class="panel"></section>
+    <section id="nutrition" class="panel"></section>
+    <section id="timetable" class="panel"></section>
+  </div>
+
+  <div id="toast" class="toast" role="status"></div>
+  <div id="muscle-modal" class="muscle-modal" hidden></div>
+
+  <script src="js/exercises.js?v=atlas12"></script>
+  <script src="js/data.js?v=atlas12"></script>
+  <script src="js/atlas.js?v=atlas12"></script>
+  <script src="js/app.js?v=atlas12"></script>
+</body>
+</html>
