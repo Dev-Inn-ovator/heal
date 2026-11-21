@@ -731,15 +731,25 @@ function renderNutrition() {
     </div>
     <div class="card">
       <h3>Meal map (12-hour times)</h3>
-      <table class="table"><tr><th>When</th><th>What</th><th>Protein</th></tr>
-      ${n.meals.map((m) => `<tr><td>${to12(m.when)}</td><td>${m.items}</td><td>${m.p}</td></tr>`).join("")}
-      </table>
+      <div class="meal-map">
+        ${n.meals
+          .map(
+            (m) => `<article class="meal-row">
+          <div class="meal-when">${to12(m.when)}</div>
+          <div class="meal-p">${m.p}</div>
+          <div class="meal-what">${m.items}</div>
+        </article>`
+          )
+          .join("")}
+      </div>
     </div>
     <div class="card">
       <h3>Supplements</h3>
-      <table class="table"><tr><th>Item</th><th>Dose</th><th>Note</th></tr>
-      ${HEAL.supplementsOwned.map((s) => `<tr><td>${s.name}</td><td>${s.dose}</td><td>${s.note}</td></tr>`).join("")}
-      </table>
+      <div class="table-wrap">
+        <table class="table"><tr><th>Item</th><th>Dose</th><th>Note</th></tr>
+        ${HEAL.supplementsOwned.map((s) => `<tr><td>${s.name}</td><td>${s.dose}</td><td>${s.note}</td></tr>`).join("")}
+        </table>
+      </div>
     </div>
     <div class="card">
       <h3>Recipes</h3>
